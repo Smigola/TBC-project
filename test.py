@@ -6,23 +6,35 @@ def user_input(): #bachana
     #davanamatot card change funqcionali
 
 
-class Player: #bachana
+class Player:
     def __init__(self,name):
         self.name = name
 
-    def remove_player():
+    def remove_player(self):
         pass 
+    
+    def player_cards(self,cards):
+        pass
+
+    def card_change(): #mariami
+        pass
+
 
 
 class Card:
-    #card_list_value = [
-     #   1,2,3,{"J": 11},{"D":12} #all
-    #]
-
-    #card_list_colour = []
-
     def __init__(self):
-        pass
+        self.deck = []
+
+    def deck_generate(self):
+        card_list_value = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        card_list_colour = ["♠", "♥", "♦", "♣"]
+
+        for colour in card_list_colour:
+            for value in card_list_value:
+                self.deck.append(value + colour)
+        self.deck = 4 * self.deck
+
+        return self.deck
 
     def grade_calculation(): #daviti
         pass
@@ -31,19 +43,15 @@ class Card:
 
     def extra_comparison(): #daviti
         pass
-
-    def card_change(): #mariami
-        pass
     
     def show_cards(): #mariami
         pass
 
 
-
-
 def main():
-    while True: 
-        pass
+    a = Card()
+    print(a.deck_generate())
+    
 
 
 if __name__ == "__main__":
