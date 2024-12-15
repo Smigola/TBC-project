@@ -1,10 +1,8 @@
 import random
 
 
-def user_input(): #bachana
+def user_input():
     pass
-    #davanamatot card change funqcionali
-
 
 class Player:
     def __init__(self,name):
@@ -16,7 +14,7 @@ class Player:
     def player_cards(self,cards):
         pass
 
-    def card_change(): #mariami
+    def card_change():
         pass
 
 
@@ -36,15 +34,13 @@ class Card:
 
         return self.deck
 
-    def grade_calculation(): #daviti
+    def grade_calculation():
         pass
-        #if tie:
-        #extra_comparison()
 
-    def extra_comparison(): #daviti
+    def extra_comparison():
         pass
     
-    def show_cards(): #mariami
+    def show_cards():
         pass
 
 
