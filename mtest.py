@@ -1,0 +1,85 @@
+import random
+
+
+def user_input():  # bachana
+    pass
+    # davanamatot card change funqcionali
+
+
+class Player:
+    def __init__(self, name, deck):
+        self.name = name
+        self.deck = deck
+        self.cards = []
+    
+    def remove_player(self):
+        pass
+    
+    def player_cards(self):  # checkinggggg
+        for _ in range(5):
+            card = random.choice(self.deck)
+            self.cards.append(card)
+        return self.cards
+    
+    def card_change(self):  # mariami
+        change = input("Would you like to change a card? Enter 'yes' or 'no': ").lower().strip()
+        if change == "yes":
+            try:
+                #print(f"Your cards: {self.cards}")  # ამის სხვაგან დაპრინტვა ხო არ ჯობა?not sure
+                card_index = int(input("Enter position of the card you'd like to change: ")) - 1
+                if 0 <= card_index < len(self.cards):
+                    changed_card = random.choice(self.deck)
+                    self.cards[card_index] = changed_card
+                else:
+                    print("Invalid position. Choose position between 1 and 5")
+            except ValueError:
+                print("Invalid input")
+        elif change == "no":
+            print("No change")
+        else:
+            print("Invalid input")
+        
+        return self.cards
+
+
+class Card:
+    def __init__(self):
+        self.deck = []
+    
+    def deck_generate(self):
+        card_list_value = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        card_list_colour = ["♠", "♥", "♦", "♣"]
+        
+        for colour in card_list_colour:
+            for value in card_list_value:
+                self.deck.append(value + colour)
+        self.deck = 4 * self.deck
+        
+        return self.deck
+    
+    def grade_calculation():  # daviti
+        pass
+        # if tie:
+        # extra_comparison()
+    
+    def extra_comparison():  # daviti
+        pass
+    
+    def show_cards(self, cards):  # mariami
+        for card in cards:
+            print(card, end=" ")
+
+
+def main():
+    a = Card()
+    deck = a.deck_generate()
+    
+    p = Player(name="aa", deck=deck)
+    print(p.player_cards())
+    print(p.card_change())
+    
+    a.show_cards(p.cards)
+
+
+if __name__ == "__main__":
+    main()
