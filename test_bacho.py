@@ -35,12 +35,12 @@ class Player:
                     self.cards[card_index] = changed_card
                 else:
                     print("Invalid position. Choose position between 1 and 5")
-                    self.card_change(self)
+                    self.card_change()
         elif change == "no":
             print("No change")
         else:
             print("Invalid input")
-            self.card_change(self)
+            self.card_change()
 
         return self.cards
 
