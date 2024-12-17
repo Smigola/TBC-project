@@ -21,23 +21,32 @@ class Player:
             self.cards.append(card)
         return self.cards
     
+    def show_cards(self, cards):  # mariami
+        print("Current cards: ", end="")
+        for card in cards:
+            print(card, end=" ")
+        print()
+    
     def card_change(self):  # mariami
+        self.show_cards(self.cards)
         change = input("Would you like to change a card? Enter 'yes' or 'no': ").lower().strip()
+        
         if change == "yes":
-            try:
-                #print(f"Your cards: {self.cards}")  # ამის სხვაგან დაპრინტვა ხო არ ჯობა?not sure
-                card_index = int(input("Enter position of the card you'd like to change: ")) - 1
-                if 0 <= card_index < len(self.cards):
-                    changed_card = random.choice(self.deck)
-                    self.cards[card_index] = changed_card
-                else:
-                    print("Invalid position. Choose position between 1 and 5")
-            except ValueError:
-                print("Invalid input")
+            card_index = int(input("Enter position of the card you'd like to change: ")) - 1
+            if 0 <= card_index < len(self.cards):
+                changed_card = random.choice(self.deck)
+                self.cards[card_index] = changed_card
+                self.show_cards(self.cards)
+            else:
+                print("Invalid position. Choose position between 1 and 5")
+                print()
+                Player.card_change(self)
         elif change == "no":
             print("No change")
         else:
             print("Invalid input")
+            print()
+            Player.card_change(self)
         
         return self.cards
 
@@ -57,17 +66,13 @@ class Card:
         
         return self.deck
     
-    def grade_calculation():  # daviti
+    def grade_calculation(self):  # daviti
         pass
         # if tie:
         # extra_comparison()
     
-    def extra_comparison():  # daviti
+    def extra_comparison(self):  # daviti
         pass
-    
-    def show_cards(self, cards):  # mariami
-        for card in cards:
-            print(card, end=" ")
 
 
 def main():
@@ -75,10 +80,11 @@ def main():
     deck = a.deck_generate()
     
     p = Player(name="aa", deck=deck)
-    print(p.player_cards())
-    print(p.card_change())
+    p.player_cards()
+    p.card_change()
     
-    a.show_cards(p.cards)
+    # .show_cards(p.cards)
+    print(p.cards)
 
 
 if __name__ == "__main__":
