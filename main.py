@@ -47,15 +47,20 @@ class Player:
         self.show_initial_cards()
         change = input(f"{self.name} - would you like to change a card? Enter 'yes' or 'no': ").lower().strip()
         if change == "yes":
-            card_index = int(input("Enter position of the card you'd like to change: ")) - 1
-            if 0 <= card_index < len(self.cards):
-                changed_card = random.choice(self.deck)
-                self.cards[card_index] = changed_card
-                print("Updated cards:")
-                self.show_initial_cards()
-            else:
-                print("Invalid position. Choose position between 1 and 5")
+            try:
+                card_index = int(input("Enter position of the card you'd like to change: ")) - 1
+                if 0 <= card_index < len(self.cards):
+                    changed_card = random.choice(self.deck)
+                    self.cards[card_index] = changed_card
+                    print("Updated cards:")
+                    self.show_initial_cards()
+                else:
+                    print("Invalid position. Choose position between 1 and 5")
+                    self.card_change()
+            except Exception as err:
+                print("invalid input", err)
                 self.card_change()
+
         elif change == "no":
             print("No change")
         else:
