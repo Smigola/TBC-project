@@ -3,9 +3,21 @@ import random
 
 def user_input():
     players = []
-    for i in range(1, 4):
-        player = input(f"Enter player {i} name: ")
-        players.append(player)
+    try:
+        for i in range(1, 4):
+            while True:
+                player = input(f"Enter player {i} name: ").strip()
+                if not player:
+                    print("empty name, please try again.")
+                elif not player.isalpha():
+                    print("Player name can only contain letters. Please try again.")
+                elif player in players:
+                    print("Duplicate name detected. Please use different names")
+                else:
+                    players.append(player)
+                    break
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
     return players
 
@@ -24,14 +36,15 @@ class Player:
             self.cards.append(card)
         return self.cards
 
-    def show_cards(self):
+    def show_initial_cards(self):
         print(f"{self.name}'s cards: ", end="")
         for card in self.cards:
             print(card, end=" ")
         print()
 
     def card_change(self):
-        self.show_cards()
+        print()
+        self.show_initial_cards()
         change = input(f"{self.name} - would you like to change a card? Enter 'yes' or 'no': ").lower().strip()
         if change == "yes":
             card_index = int(input("Enter position of the card you'd like to change: ")) - 1
@@ -39,7 +52,7 @@ class Player:
                 changed_card = random.choice(self.deck)
                 self.cards[card_index] = changed_card
                 print("Updated cards:")
-                self.show_cards()
+                self.show_initial_cards()
             else:
                 print("Invalid position. Choose position between 1 and 5")
                 self.card_change()
@@ -92,7 +105,7 @@ class Card:
             same_count[c] = same_count[c] + 1
         return max(same_count.values())
 
-    def get_winner(self, players):
+    def get_result(self, players):
         scores = {}
         for player in players:
             scores[player] = [
@@ -101,20 +114,41 @@ class Card:
                 self.grade_by_card(player.cards)
             ]
 
-        max_score = max(value[0] for value in scores.values())
-        scores = {key: value for key, value in scores.items() if value[0] == max_score}
+        for i in range(2):
+            max_score = max(value[0] for value in scores.values())
+            scores = {key: value for key, value in scores.items() if value[0] == max_score}
 
-        max_score = max(value[1] for value in scores.values())
-        scores = {key: value for key, value in scores.items() if value[1] == max_score}
+        loser = [player for player in players if player not in scores.keys()]
 
-        max_score = max(value[2] for value in scores.values())
-        scores = {key: value for key, value in scores.items() if value[2] == max_score}
+        return list(scores.keys()), loser
 
-        return list(scores.keys())
-
-    def show_cards(self, cards):
+    def show_changed_cards(self, cards):
         for card in cards:
             print(card, end=" ")
+
+
+def play_game(players, card_deck):
+    for player in players:
+        player.player_cards()
+        player.show_initial_cards()
+
+    for player in players:
+        player.card_change()
+
+    print("\nFinal cards:")
+    for player in players:
+        print(f"{player.name}: ", end="")
+        card_deck.show_changed_cards(player.cards)
+        print()
+
+    winners, losers = card_deck.get_result(players)
+
+    print("Eliminated:")
+    for loser in losers:
+        print(loser.name, end=" ")
+    print()
+
+    return winners
 
 
 def main():
@@ -125,29 +159,15 @@ def main():
     players = [Player(name, deck) for name in player_names]
     winners = play_game(players, card_deck)
     while len(winners) > 1:
-        card_deck.deck_generate()
+        print("Tie! start new round!")
+        deck = card_deck.deck_generate()
+        for player in players:
+            player.deck = deck
+
         players = winners
         winners = play_game(players, card_deck)
 
     print(f"Winner: {winners[0].name}")
-
-
-def play_game(players, card_deck):
-    for player in players:
-        player.player_cards()
-        player.show_cards()
-
-    for player in players:
-        player.card_change()
-
-    print("\nFinal cards and scores:")
-    for player in players:
-        print(f"{player.name}: ", end="")
-        card_deck.show_cards(player.cards)
-        print()
-
-    winners = card_deck.get_winner(players)
-    return winners
 
 
 if __name__ == "__main__":
